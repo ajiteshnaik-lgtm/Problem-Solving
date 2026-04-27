@@ -1,0 +1,1670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Problem-Solving Strategies</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #12121a;
+    --surface2: #1a1a26;
+    --accent: #00e5a0;
+    --accent2: #ff6b35;
+    --accent3: #7c3aed;
+    --text: #f0f0f0;
+    --text-muted: #888899;
+    --border: rgba(255,255,255,0.07);
+    --card-bg: #13131e;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: rgba(10,10,15,0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    letter-spacing: 2px;
+    color: var(--accent);
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 0;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 400;
+    padding: 0.4rem 0.9rem;
+    border-radius: 4px;
+    transition: color 0.2s, background 0.2s;
+    letter-spacing: 0.03em;
+  }
+
+  .nav-links a:hover {
+    color: var(--text);
+    background: rgba(255,255,255,0.05);
+  }
+
+  /* HERO */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 6rem 2rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,229,160,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,229,160,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+  }
+
+  .hero-glow {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,229,160,0.08) 0%, transparent 70%);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+
+  .hero-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.2s forwards;
+  }
+
+  .hero h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(4rem, 12vw, 9rem);
+    line-height: 0.9;
+    letter-spacing: 4px;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.4s forwards;
+  }
+
+  .hero h1 span { color: var(--accent); }
+
+  .hero-sub {
+    font-size: 1.05rem;
+    color: var(--text-muted);
+    max-width: 500px;
+    margin-bottom: 2.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.6s forwards;
+  }
+
+  .hero-btns {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.8s forwards;
+  }
+
+  .btn {
+    padding: 0.75rem 1.8rem;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: #000;
+    border: none;
+  }
+
+  .btn-primary:hover {
+    background: #00ffb3;
+    transform: translateY(-2px);
+  }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+
+  .btn-ghost:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .hero-puzzle {
+    margin-top: 4rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 1s forwards;
+  }
+
+  .puzzle-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+    letter-spacing: 0.1em;
+  }
+
+  /* SECTIONS */
+  section {
+    padding: 6rem 2rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    margin-bottom: 0.75rem;
+  }
+
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    letter-spacing: 3px;
+    line-height: 1;
+    margin-bottom: 1rem;
+  }
+
+  .section-intro {
+    color: var(--text-muted);
+    font-size: 1rem;
+    max-width: 600px;
+    margin-bottom: 3rem;
+  }
+
+  .divider {
+    width: 100%;
+    height: 1px;
+    background: var(--border);
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  /* CARDS */
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem 1.75rem;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .card:hover {
+    border-color: rgba(0,229,160,0.2);
+    transform: translateY(-2px);
+  }
+
+  .card-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+  }
+
+  .card h3 {
+    font-size: 1.05rem;
+    font-weight: 500;
+    margin-bottom: 0.6rem;
+    color: var(--text);
+  }
+
+  .card p {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+
+  /* GRID LAYOUTS */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+  .grid-auto { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
+
+  /* INTRO SECTION */
+  .intro-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+
+  .intro-big-text {
+    font-size: 1.15rem;
+    line-height: 1.8;
+    color: var(--text);
+    margin-bottom: 1.5rem;
+  }
+
+  .intro-big-text strong {
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  .stat-row {
+    display: flex;
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+
+  .stat {
+    text-align: left;
+  }
+
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.5rem;
+    color: var(--accent);
+    letter-spacing: 2px;
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+    margin-top: 0.25rem;
+  }
+
+  /* 9-DOT PUZZLE */
+  .puzzle-container {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2rem;
+    text-align: center;
+  }
+
+  .dot-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    width: 150px;
+    margin: 1.5rem auto;
+  }
+
+  .dot {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--text);
+    margin: 0 auto;
+    transition: background 0.3s;
+  }
+
+  .puzzle-prompt {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+    font-style: italic;
+  }
+
+  .puzzle-reveal {
+    display: none;
+    margin-top: 1rem;
+    padding: 1rem;
+    background: rgba(0,229,160,0.05);
+    border: 1px solid rgba(0,229,160,0.2);
+    border-radius: 8px;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    text-align: left;
+    line-height: 1.7;
+  }
+
+  .puzzle-reveal.show { display: block; }
+
+  /* TYPES SECTION */
+  .type-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .type-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+
+  .type-card.simple::before { background: var(--accent); }
+  .type-card.complex::before { background: var(--accent2); }
+  .type-card.wicked::before { background: var(--accent3); }
+
+  .type-icon {
+    font-size: 1.75rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .type-card h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem;
+    letter-spacing: 2px;
+    margin-bottom: 0.5rem;
+  }
+
+  .type-card.simple h3 { color: var(--accent); }
+  .type-card.complex h3 { color: var(--accent2); }
+  .type-card.wicked h3 { color: var(--accent3); }
+
+  .type-card p { font-size: 0.85rem; color: var(--text-muted); }
+
+  .type-example {
+    margin-top: 0.75rem;
+    padding: 0.6rem 0.9rem;
+    background: rgba(255,255,255,0.03);
+    border-radius: 6px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+
+  /* VS ROW */
+  .vs-row {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 1.5rem;
+    align-items: center;
+    margin-bottom: 2.5rem;
+  }
+
+  .vs-badge {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.2rem;
+    letter-spacing: 3px;
+    color: var(--text-muted);
+    text-align: center;
+  }
+
+  .vs-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+  }
+
+  .vs-card h4 {
+    font-weight: 500;
+    font-size: 0.95rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .vs-card p { font-size: 0.82rem; color: var(--text-muted); }
+
+  /* FRAMEWORKS */
+  .framework-tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .tab-btn {
+    padding: 0.5rem 1.25rem;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-muted);
+    font-size: 13px;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .tab-btn.active {
+    background: var(--accent);
+    color: #000;
+    border-color: var(--accent);
+    font-weight: 500;
+  }
+
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  .steps-flow {
+    display: flex;
+    gap: 0;
+    align-items: stretch;
+    flex-wrap: wrap;
+  }
+
+  .step-item {
+    flex: 1;
+    min-width: 140px;
+    padding: 1.25rem 1rem;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    position: relative;
+    text-align: center;
+  }
+
+  .step-item:first-child { border-radius: 10px 0 0 10px; }
+  .step-item:last-child { border-radius: 0 10px 10px 0; }
+
+  .step-item:not(:first-child) { border-left: none; }
+
+  .step-letter {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    color: var(--accent);
+    letter-spacing: 2px;
+    line-height: 1;
+  }
+
+  .step-name {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--text);
+    margin-top: 0.3rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .step-desc {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  .framework-note {
+    margin-top: 1.5rem;
+    padding: 1rem 1.25rem;
+    background: rgba(0,229,160,0.04);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+
+  /* STRATEGIES */
+  .strategy-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    background: var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .strategy-item {
+    background: var(--card-bg);
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .strategy-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.1rem 1.5rem;
+    user-select: none;
+  }
+
+  .strategy-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    min-width: 28px;
+  }
+
+  .strategy-name {
+    font-weight: 500;
+    font-size: 0.95rem;
+    flex: 1;
+  }
+
+  .strategy-chevron {
+    color: var(--text-muted);
+    font-size: 12px;
+    transition: transform 0.3s;
+  }
+
+  .strategy-item.open .strategy-chevron { transform: rotate(180deg); }
+
+  .strategy-body {
+    display: none;
+    padding: 0 1.5rem 1.25rem 3.5rem;
+  }
+
+  .strategy-item.open .strategy-body { display: block; }
+
+  .strategy-body p { font-size: 0.875rem; color: var(--text-muted); margin-bottom: 0.75rem; }
+
+  .strategy-meta {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-top: 0.75rem;
+  }
+
+  .meta-pill {
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.72rem;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .pill-eg { background: rgba(0,229,160,0.08); color: var(--accent); border: 1px solid rgba(0,229,160,0.2); }
+  .pill-use { background: rgba(124,58,237,0.08); color: #a78bfa; border: 1px solid rgba(124,58,237,0.2); }
+
+  /* FAILURES */
+  .failure-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1rem;
+  }
+
+  .failure-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .failure-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent2), transparent);
+  }
+
+  .failure-card h3 {
+    font-weight: 500;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    color: var(--accent2);
+  }
+
+  .failure-card p { font-size: 0.85rem; color: var(--text-muted); line-height: 1.7; }
+
+  .fix-tag {
+    display: inline-block;
+    margin-top: 0.75rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    background: rgba(0,229,160,0.07);
+    padding: 0.25rem 0.65rem;
+    border-radius: 4px;
+  }
+
+  /* REAL WORLD */
+  .example-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .example-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem 1.75rem;
+    transition: border-color 0.2s;
+  }
+
+  .example-card:hover { border-color: rgba(255,107,53,0.3); }
+
+  .example-category {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--accent2);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  .example-card h3 {
+    font-weight: 500;
+    font-size: 1rem;
+    margin-bottom: 0.6rem;
+    color: var(--text);
+  }
+
+  .example-card p { font-size: 0.84rem; color: var(--text-muted); line-height: 1.7; }
+
+  .example-tag {
+    display: inline-block;
+    margin-top: 0.75rem;
+    font-size: 0.72rem;
+    padding: 0.25rem 0.65rem;
+    border-radius: 4px;
+    background: rgba(255,107,53,0.08);
+    color: var(--accent2);
+    border: 1px solid rgba(255,107,53,0.2);
+  }
+
+  /* ACTIVITIES */
+  .activity-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  .activity-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .activity-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3rem;
+    line-height: 1;
+    color: rgba(0,229,160,0.15);
+    letter-spacing: 3px;
+  }
+
+  .activity-card h3 {
+    font-weight: 500;
+    font-size: 1.1rem;
+    color: var(--text);
+  }
+
+  .activity-card p { font-size: 0.85rem; color: var(--text-muted); }
+
+  .activity-badge {
+    align-self: flex-start;
+    padding: 0.3rem 0.9rem;
+    border-radius: 20px;
+    font-size: 0.72rem;
+    font-weight: 500;
+    background: rgba(0,229,160,0.1);
+    color: var(--accent);
+    border: 1px solid rgba(0,229,160,0.2);
+  }
+
+  /* STRATEGY MATCHING ACTIVITY */
+  .matching-game {
+    background: var(--surface2);
+    border-radius: 12px;
+    padding: 1.5rem;
+  }
+
+  .scenario-item {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.9rem 1rem;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .scenario-text {
+    flex: 1;
+    font-size: 0.84rem;
+    color: var(--text);
+  }
+
+  .scenario-select {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    font-size: 0.8rem;
+    padding: 0.4rem 0.7rem;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    min-width: 160px;
+  }
+
+  .check-btn {
+    display: block;
+    width: 100%;
+    padding: 0.75rem;
+    border-radius: 8px;
+    background: var(--accent);
+    color: #000;
+    font-weight: 500;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+    margin-top: 1rem;
+    font-family: 'DM Sans', sans-serif;
+    transition: background 0.2s;
+  }
+
+  .check-btn:hover { background: #00ffb3; }
+
+  .match-result {
+    margin-top: 0.75rem;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    display: none;
+  }
+
+  .match-result.show { display: block; }
+  .match-result.good { background: rgba(0,229,160,0.08); color: var(--accent); border: 1px solid rgba(0,229,160,0.2); }
+  .match-result.bad { background: rgba(255,107,53,0.08); color: var(--accent2); border: 1px solid rgba(255,107,53,0.2); }
+
+  /* QUIZ */
+  #quiz {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    padding: 6rem 2rem;
+  }
+
+  .quiz-inner {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .quiz-q {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem 1.75rem;
+    margin-bottom: 1rem;
+    transition: border-color 0.2s;
+  }
+
+  .quiz-q.correct { border-color: var(--accent); }
+  .quiz-q.incorrect { border-color: var(--accent2); }
+
+  .q-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+  }
+
+  .q-text {
+    font-size: 0.95rem;
+    font-weight: 400;
+    color: var(--text);
+    margin-bottom: 1rem;
+    line-height: 1.6;
+  }
+
+  .q-options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .q-opt {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.6rem 0.9rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    background: transparent;
+  }
+
+  .q-opt:hover { border-color: rgba(0,229,160,0.3); color: var(--text); }
+
+  .q-opt.selected { border-color: var(--accent); color: var(--accent); background: rgba(0,229,160,0.05); }
+  .q-opt.correct-ans { border-color: var(--accent); background: rgba(0,229,160,0.1); color: var(--accent); }
+  .q-opt.wrong-ans { border-color: var(--accent2); background: rgba(255,107,53,0.08); color: var(--accent2); }
+
+  .q-open textarea {
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.875rem;
+    padding: 0.75rem 1rem;
+    resize: vertical;
+    min-height: 80px;
+    line-height: 1.6;
+    transition: border-color 0.2s;
+  }
+
+  .q-open textarea:focus {
+    outline: none;
+    border-color: rgba(0,229,160,0.4);
+  }
+
+  .q-open textarea::placeholder { color: var(--text-muted); }
+
+  .quiz-submit {
+    display: block;
+    width: 100%;
+    padding: 1rem;
+    border-radius: 8px;
+    background: var(--accent);
+    color: #000;
+    font-weight: 500;
+    font-size: 15px;
+    border: none;
+    cursor: pointer;
+    margin-top: 1.5rem;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.2s;
+    letter-spacing: 0.03em;
+  }
+
+  .quiz-submit:hover { background: #00ffb3; transform: translateY(-1px); }
+
+  .quiz-result {
+    display: none;
+    margin-top: 1.5rem;
+    padding: 1.5rem;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    text-align: center;
+  }
+
+  .quiz-result.show { display: block; }
+
+  .result-score {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 4rem;
+    color: var(--accent);
+    letter-spacing: 4px;
+    line-height: 1;
+  }
+
+  .result-label {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    margin-top: 0.5rem;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--bg);
+    border-top: 1px solid var(--border);
+    text-align: center;
+    padding: 2.5rem;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+
+  footer span { color: var(--accent); }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .grid-2, .intro-split, .example-cards, .activity-grid { grid-template-columns: 1fr; }
+    .grid-3 { grid-template-columns: 1fr 1fr; }
+    .steps-flow { flex-direction: column; }
+    .step-item { border-radius: 0; border-left: 1px solid var(--border) !important; border-top: none !important; }
+    .step-item:first-child { border-radius: 10px 10px 0 0; border-top: 1px solid var(--border) !important; }
+    .step-item:last-child { border-radius: 0 0 10px 10px; }
+    .vs-row { grid-template-columns: 1fr; }
+    .vs-badge { display: none; }
+    nav .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">PROBLEM SOLVING</div>
+  <ul class="nav-links">
+    <li><a href="#intro">Intro</a></li>
+    <li><a href="#types">Types</a></li>
+    <li><a href="#frameworks">Frameworks</a></li>
+    <li><a href="#strategies">Strategies</a></li>
+    <li><a href="#failures">When It Fails</a></li>
+    <li><a href="#examples">Real World</a></li>
+    <li><a href="#activities">Activities</a></li>
+    <li><a href="#quiz">Quiz</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero" style="max-width:100%; padding-top: 60px;">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-tag">CRITICAL THINKING · PENRITH SELECTIVE</div>
+  <h1>PROBLEM<br><span>SOLVING</span></h1>
+  <p class="hero-sub">Why do smart people fail to solve simple problems — and how can you think your way out of any situation?</p>
+  <div class="hero-btns">
+    <a href="#intro" class="btn btn-primary">Start Learning</a>
+    <a href="#quiz" class="btn btn-ghost">Take the Quiz</a>
+  </div>
+  <div class="hero-puzzle">
+    <div class="puzzle-label">// WARM-UP PUZZLE</div>
+    <div style="background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem 2rem; display: inline-block; text-align: center;">
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">Connect all 9 dots with 4 straight lines — without lifting your pen.</p>
+      <div class="dot-grid">
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+      </div>
+      <button class="btn btn-ghost" style="font-size:12px; padding: 0.5rem 1.2rem; margin-top: 0.5rem;" onclick="document.getElementById('dot-reveal').classList.toggle('show')">Reveal Answer ↓</button>
+      <div id="dot-reveal" class="puzzle-reveal">
+        <strong style="color: var(--accent);">The trick:</strong> You have to draw lines <em>outside</em> the imaginary boundary of the square. Nobody told you the lines had to stay inside — you imposed that constraint yourself. This is the core insight of problem-solving: <strong style="color:var(--text);">we build invisible walls that don't exist.</strong>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- INTRO -->
+<section id="intro">
+  <div class="section-tag">01 — INTRODUCTION</div>
+  <div class="section-title">WHAT IS<br>PROBLEM SOLVING?</div>
+  <div class="intro-split reveal">
+    <div>
+      <p class="intro-big-text">
+        Problem-solving is the process of moving from a <strong>current state</strong> (the problem) to a <strong>desired state</strong> (the solution) — using logic, creativity, and prior knowledge.
+      </p>
+      <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">
+        It's not just a school skill. Employers consistently rank it as a <strong style="color:var(--text)">top-three skill</strong> above technical knowledge. The World Economic Forum lists it as a core 21st-century capability. You use it constantly — every single day.
+      </p>
+      <p style="color: var(--text-muted); font-size: 0.9rem;">
+        So why do people fail? Not because of low intelligence — but because of <strong style="color: var(--accent2);">thinking patterns</strong>. Our brains take shortcuts, over-rely on past experience, and fail to see problems from fresh angles. These cognitive barriers are exactly what we're here to dismantle.
+      </p>
+      <div class="stat-row">
+        <div class="stat">
+          <div class="stat-num">#1</div>
+          <div class="stat-label">skill employers want</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">WEF</div>
+          <div class="stat-label">lists it as core 21st C skill</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">100%</div>
+          <div class="stat-label">of humans do it daily</div>
+        </div>
+      </div>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+      <div class="card">
+        <div class="card-label">Definition</div>
+        <h3>The Cognitive Process</h3>
+        <p>Identifying an obstacle, analysing it, and systematically working toward an effective resolution — using both rational and creative thinking.</p>
+      </div>
+      <div class="card">
+        <div class="card-label">The Core Problem</div>
+        <h3>Mental Blocks</h3>
+        <p>We impose invisible constraints on ourselves. We default to old strategies. We see what we expect to see. Understanding these patterns is the first step to overcoming them.</p>
+      </div>
+      <div class="card">
+        <div class="card-label">Key Insight</div>
+        <h3>It's a Skill — Not a Talent</h3>
+        <p>Problem-solving can be learned, practised, and improved. The strategies and frameworks on this site give you a toolkit you can apply to almost any situation.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- TYPES -->
+<section id="types">
+  <div class="section-tag">02 — TYPES OF PROBLEMS</div>
+  <div class="section-title">NOT ALL<br>PROBLEMS ARE EQUAL</div>
+  <p class="section-intro">Before you can solve a problem, you need to know what kind of problem you're dealing with. The strategy changes depending on the type.</p>
+
+  <div class="vs-row reveal">
+    <div class="vs-card">
+      <h4 style="color: var(--accent);">Well-Defined</h4>
+      <p>Clear goal, known rules, obvious solution. You know when you've solved it.</p>
+      <p style="margin-top: 0.5rem; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--accent);">eg. What is 847 ÷ 7?</p>
+    </div>
+    <div class="vs-badge">VS</div>
+    <div class="vs-card">
+      <h4 style="color: var(--accent2);">Ill-Defined</h4>
+      <p>Vague goal, incomplete information, multiple valid solutions possible.</p>
+      <p style="margin-top: 0.5rem; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--accent2);">eg. How do we reduce homelessness?</p>
+    </div>
+  </div>
+
+  <div class="grid-3 reveal">
+    <div class="type-card simple">
+      <div class="type-icon">🟢</div>
+      <h3>SIMPLE</h3>
+      <p>Clear solution, established procedure. Low complexity, low stakes.</p>
+      <div class="type-example">eg. Fixing a flat tyre</div>
+    </div>
+    <div class="type-card complex">
+      <div class="type-icon">🟠</div>
+      <h3>COMPLEX</h3>
+      <p>Many variables, significant analysis needed — but solutions exist.</p>
+      <div class="type-example">eg. Designing a bridge</div>
+    </div>
+    <div class="type-card wicked">
+      <div class="type-icon">🟣</div>
+      <h3>WICKED</h3>
+      <p>No single correct answer. Solving one part creates new problems. Requires ongoing management.</p>
+      <div class="type-example">eg. Climate change, poverty</div>
+    </div>
+  </div>
+
+  <div class="card reveal" style="margin-top: 1rem;">
+    <div class="card-label">coined by horst rittel — urban planner</div>
+    <h3>What makes a problem "wicked"?</h3>
+    <p>Wicked problems are not just difficult — they're fundamentally resistant to resolution. Every attempt to solve them changes the problem itself. Climate change, poverty, and public health crises all fall into this category. They can't be "solved" once and for all — only managed over time.</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- FRAMEWORKS -->
+<section id="frameworks">
+  <div class="section-tag">03 — FRAMEWORKS</div>
+  <div class="section-title">HOW TO<br>APPROACH IT</div>
+  <p class="section-intro">Frameworks give you a structured path through a problem. They don't tell you what to think — they tell you how to think.</p>
+
+  <div class="framework-tabs reveal">
+    <button class="tab-btn active" onclick="switchTab('ideal')">IDEAL Model</button>
+    <button class="tab-btn" onclick="switchTab('design')">Design Thinking</button>
+  </div>
+
+  <div id="ideal" class="tab-content active reveal">
+    <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem;">Developed by Bransford & Stein (1984). One of the most widely taught structured approaches to problem-solving.</p>
+    <div class="steps-flow">
+      <div class="step-item">
+        <div class="step-letter">I</div>
+        <div class="step-name">Identify</div>
+        <div class="step-desc">Recognise a problem exists. Define what it actually is — not just the symptoms.</div>
+      </div>
+      <div class="step-item">
+        <div class="step-letter">D</div>
+        <div class="step-name">Define</div>
+        <div class="step-desc">What needs to change? What are the constraints? What counts as a solution?</div>
+      </div>
+      <div class="step-item">
+        <div class="step-letter">E</div>
+        <div class="step-name">Explore</div>
+        <div class="step-desc">Brainstorm multiple strategies before committing to one.</div>
+      </div>
+      <div class="step-item">
+        <div class="step-letter">A</div>
+        <div class="step-name">Act</div>
+        <div class="step-desc">Implement your chosen strategy.</div>
+      </div>
+      <div class="step-item">
+        <div class="step-letter">L</div>
+        <div class="step-name">Look Back</div>
+        <div class="step-desc">Did it work? What would you do differently?</div>
+      </div>
+    </div>
+    <div class="framework-note">
+      ⚡ The <strong style="color:var(--text)">Look Back</strong> step is the most commonly skipped — but it's what separates people who improve from those who repeat the same mistakes.
+    </div>
+  </div>
+
+  <div id="design" class="tab-content reveal">
+    <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem;">Developed at Stanford's d.school. Used by Apple, IDEO, and Google. Best for ill-defined and wicked problems because it starts with people, not assumptions.</p>
+    <div class="steps-flow">
+      <div class="step-item" style="--c: #ff6b35;">
+        <div class="step-letter" style="color: var(--accent2);">01</div>
+        <div class="step-name">Empathise</div>
+        <div class="step-desc">Understand the people affected by the problem.</div>
+      </div>
+      <div class="step-item">
+        <div class="step-letter" style="color: var(--accent2);">02</div>
+        <div class="step-name">Define</div>
+        <div class="step-desc">Clearly articulate what problem you're actually solving.</div>
+      </div>
+      <div class="step-item">
+        <div class="step-letter" style="color: var(--accent2);">03</div>
+        <div class="step-name">Ideate</div>
+        <div class="step-desc">Generate as many ideas as possible without judging them.</div>
+      </div>
+      <div class="step-item">
+        <div class="step-letter" style="color: var(--accent2);">04</div>
+        <div class="step-name">Prototype</div>
+        <div class="step-desc">Build a rough version of your best solution.</div>
+      </div>
+      <div class="step-item">
+        <div class="step-letter" style="color: var(--accent2);">05</div>
+        <div class="step-name">Test</div>
+        <div class="step-desc">Try it out, gather feedback, and refine.</div>
+      </div>
+    </div>
+    <div class="framework-note">
+      💡 Design Thinking is best for problems where the <strong style="color:var(--text)">human element</strong> matters — when you need to understand people before you can understand the problem.
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- STRATEGIES -->
+<section id="strategies">
+  <div class="section-tag">04 — STRATEGIES</div>
+  <div class="section-title">YOUR<br>TOOLKIT</div>
+  <p class="section-intro">Different problems need different tools. Click each strategy to expand it.</p>
+
+  <div class="strategy-list reveal">
+    <div class="strategy-item" onclick="toggleStrategy(this)">
+      <div class="strategy-header">
+        <span class="strategy-num">01</span>
+        <span class="strategy-name">Trial and Error</span>
+        <span class="strategy-chevron">▼</span>
+      </div>
+      <div class="strategy-body">
+        <p>Trying possible solutions one at a time until one works — no systematic plan required.</p>
+        <div class="strategy-meta">
+          <span class="meta-pill pill-eg">eg. Trying passwords until you get it right</span>
+          <span class="meta-pill pill-use">Best when: few options, low stakes</span>
+        </div>
+      </div>
+    </div>
+    <div class="strategy-item" onclick="toggleStrategy(this)">
+      <div class="strategy-header">
+        <span class="strategy-num">02</span>
+        <span class="strategy-name">Algorithms</span>
+        <span class="strategy-chevron">▼</span>
+      </div>
+      <div class="strategy-body">
+        <p>A guaranteed step-by-step procedure. If you follow it correctly, you will reach the right answer — every time.</p>
+        <div class="strategy-meta">
+          <span class="meta-pill pill-eg">eg. Long division, solving a quadratic, a recipe</span>
+          <span class="meta-pill pill-use">Best when: certainty matters more than speed</span>
+        </div>
+      </div>
+    </div>
+    <div class="strategy-item" onclick="toggleStrategy(this)">
+      <div class="strategy-header">
+        <span class="strategy-num">03</span>
+        <span class="strategy-name">Heuristics</span>
+        <span class="strategy-chevron">▼</span>
+      </div>
+      <div class="strategy-body">
+        <p>Mental shortcuts — rules of thumb — that reach a good-enough answer quickly. No guarantee of being correct, but highly efficient. Most everyday thinking is heuristic.</p>
+        <div class="strategy-meta">
+          <span class="meta-pill pill-eg">eg. Chess: "control the centre" rather than calculating every move</span>
+          <span class="meta-pill pill-use">Best when: speed matters, exact answer not needed</span>
+        </div>
+      </div>
+    </div>
+    <div class="strategy-item" onclick="toggleStrategy(this)">
+      <div class="strategy-header">
+        <span class="strategy-num">04</span>
+        <span class="strategy-name">Means-End Analysis</span>
+        <span class="strategy-chevron">▼</span>
+      </div>
+      <div class="strategy-body">
+        <p>Compare your current state to your goal, then work to reduce the gap step by step. Each sub-goal brings you closer to the endpoint.</p>
+        <div class="strategy-meta">
+          <span class="meta-pill pill-eg">eg. 1500-word essay → intro → 3 paragraphs → conclusion</span>
+          <span class="meta-pill pill-use">Best when: goal is clear, path is not</span>
+        </div>
+      </div>
+    </div>
+    <div class="strategy-item" onclick="toggleStrategy(this)">
+      <div class="strategy-header">
+        <span class="strategy-num">05</span>
+        <span class="strategy-name">Working Backwards</span>
+        <span class="strategy-chevron">▼</span>
+      </div>
+      <div class="strategy-body">
+        <p>Start from the desired goal and reverse-engineer the steps needed to get there. Common in project planning, maths proofs, and detective reasoning.</p>
+        <div class="strategy-meta">
+          <span class="meta-pill pill-eg">eg. 9am train → leave at 8:30 → wake at 7:45</span>
+          <span class="meta-pill pill-use">Best when: end goal is clear, starting point is not</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- FAILURES -->
+<section id="failures">
+  <div class="section-tag">05 — WHEN STRATEGIES FAIL</div>
+  <div class="section-title">THE TRAPS<br>IN YOUR BRAIN</div>
+  <p class="section-intro">Even with the right toolkit, our own minds can sabotage us. Here's what to watch for.</p>
+
+  <div class="failure-grid reveal">
+    <div class="failure-card">
+      <h3>Functional Fixedness</h3>
+      <p>You only see an object as its intended purpose — blocking creative solutions. Duncker's candle problem (1945): given a candle, thumbtacks, and matches, most people failed to tack the box to the wall and use it as a shelf — because they saw the box as a container, not a platform.</p>
+      <span class="fix-tag">Fix: ignore the label. What else could this be?</span>
+    </div>
+    <div class="failure-card">
+      <h3>Mental Set / Fixation</h3>
+      <p>Defaulting to strategies that worked before — even when they're wrong for the new situation. Chess players often miss the best move because a familiar (but inferior) move comes to mind first. The Einstellung Effect.</p>
+      <span class="fix-tag">Fix: flexibility over habit. Try the unfamiliar path first.</span>
+    </div>
+    <div class="failure-card">
+      <h3>Cognitive Overload</h3>
+      <p>When a problem exceeds working memory's capacity — roughly 7 items at once (Miller's Law) — performance collapses. Errors increase, information gets missed, people give up.</p>
+      <span class="fix-tag">Fix: break it down. Write it out. Use IDEAL.</span>
+    </div>
+    <div class="failure-card">
+      <h3>Cognitive Biases</h3>
+      <p><strong style="color:var(--text); font-weight:500;">Confirmation bias</strong> — only seeking evidence that supports your existing solution.<br><br>
+      <strong style="color:var(--text); font-weight:500;">Anchoring</strong> — the first piece of information becomes disproportionately important.<br><br>
+      <strong style="color:var(--text); font-weight:500;">Sunk-cost fallacy</strong> — continuing a failing approach because you've already invested in it.</p>
+      <span class="fix-tag">Fix: actively seek disconfirming evidence.</span>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- REAL WORLD -->
+<section id="examples">
+  <div class="section-tag">06 — REAL WORLD</div>
+  <div class="section-title">THESE STRATEGIES<br>IN ACTION</div>
+  <p class="section-intro">Problem-solving isn't theoretical. These are real cases where the right — or wrong — approach changed everything.</p>
+
+  <div class="example-cards reveal">
+    <div class="example-card">
+      <div class="example-category">Medicine</div>
+      <h3>John Snow & the 1854 Cholera Outbreak</h3>
+      <p>When cholera swept Soho, the accepted theory was "bad air." Snow rejected it, mapped every death, and traced the source to a single contaminated water pump on Broad Street. He had the pump handle removed — and the outbreak ended.</p>
+      <span class="example-tag">Breaking through mental set with evidence</span>
+    </div>
+    <div class="example-card">
+      <div class="example-category">Engineering</div>
+      <h3>NASA Apollo 13</h3>
+      <p>An oxygen tank exploded. The CO₂ filters were incompatible between modules — square peg, round hole. Engineers used only what was on the spacecraft — cardboard, bags, tape, a sock — to improvise a working adaptor in under two hours.</p>
+      <span class="example-tag">Overcoming functional fixedness under pressure</span>
+    </div>
+    <div class="example-card">
+      <div class="example-category">Design / Everyday</div>
+      <h3>IDEO's Shopping Cart Redesign</h3>
+      <p>Given 5 days to redesign a supermarket trolley, IDEO didn't start with the cart — they interviewed parents, shoppers, and staff. The result: a radically better design. Starting with people rather than assumptions is the heart of Design Thinking.</p>
+      <span class="example-tag">Design Thinking in practice</span>
+    </div>
+    <div class="example-card">
+      <div class="example-category">History</div>
+      <h3>The Wright Brothers</h3>
+      <p>For centuries, people tried to fly by mimicking birds. All failed. The Wright Brothers reframed the question — not "how do birds fly?" but "what does a flying machine actually need to do?" That reframe led to the first successful flight in 1903.</p>
+      <span class="example-tag">Problem definition changes everything</span>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ACTIVITIES -->
+<section id="activities">
+  <div class="section-tag">07 — ACTIVITIES</div>
+  <div class="section-title">TEST YOUR<br>THINKING</div>
+  <p class="section-intro">Put the strategies to work. These activities are designed to challenge your assumptions.</p>
+
+  <div class="activity-grid reveal">
+    <!-- ACTIVITY 1 - 9 dot -->
+    <div class="activity-card">
+      <div class="activity-num">01</div>
+      <div class="activity-badge">Individual · 2 min</div>
+      <h3>The 9-Dot Puzzle</h3>
+      <p>Already tried it on the home page? Now try to explain <em>why</em> most people fail. What invisible rule did you impose? What strategy would you use now that you know the answer?</p>
+      <button class="btn btn-ghost" style="font-size:12px; padding: 0.5rem 1.2rem; align-self: flex-start; margin-top: 0.5rem;" onclick="document.getElementById('nine-dot-discuss').classList.toggle('show')">See discussion points ↓</button>
+      <div id="nine-dot-discuss" class="puzzle-reveal" style="margin-top: 0;">
+        The constraint (lines must stay inside the square) was <strong style="color:var(--text)">self-imposed</strong> — nobody said it. This is functional fixedness applied to spatial thinking. The solution requires lateral thinking: drawing outside the perceived boundary. Real insight: problem definition is often the hardest part.
+      </div>
+    </div>
+
+    <!-- ACTIVITY 2 - Strategy Matching -->
+    <div class="activity-card" style="grid-row: span 2;">
+      <div class="activity-num">02</div>
+      <div class="activity-badge">Interactive · Strategy Matching</div>
+      <h3>Which Strategy?</h3>
+      <p style="margin-bottom: 1rem;">Match each scenario to the best problem-solving strategy. Some have more than one valid answer.</p>
+      <div class="matching-game">
+        <div class="scenario-item">
+          <span class="scenario-text">You've forgotten your locker combination — there are 60 possible numbers to try.</span>
+          <select class="scenario-select" id="s1">
+            <option value="">Select...</option>
+            <option value="trial">Trial & Error</option>
+            <option value="algo">Algorithm</option>
+            <option value="heuristic">Heuristic</option>
+            <option value="means">Means-End Analysis</option>
+            <option value="backwards">Working Backwards</option>
+          </select>
+        </div>
+        <div class="scenario-item">
+          <span class="scenario-text">You need to plan a surprise party for next Saturday — what needs to happen first?</span>
+          <select class="scenario-select" id="s2">
+            <option value="">Select...</option>
+            <option value="trial">Trial & Error</option>
+            <option value="algo">Algorithm</option>
+            <option value="heuristic">Heuristic</option>
+            <option value="means">Means-End Analysis</option>
+            <option value="backwards">Working Backwards</option>
+          </select>
+        </div>
+        <div class="scenario-item">
+          <span class="scenario-text">You're cooking a new recipe for the first time.</span>
+          <select class="scenario-select" id="s3">
+            <option value="">Select...</option>
+            <option value="trial">Trial & Error</option>
+            <option value="algo">Algorithm</option>
+            <option value="heuristic">Heuristic</option>
+            <option value="means">Means-End Analysis</option>
+            <option value="backwards">Working Backwards</option>
+          </select>
+        </div>
+        <div class="scenario-item">
+          <span class="scenario-text">You're lost in an unfamiliar city and need the train station in 20 minutes.</span>
+          <select class="scenario-select" id="s4">
+            <option value="">Select...</option>
+            <option value="trial">Trial & Error</option>
+            <option value="algo">Algorithm</option>
+            <option value="heuristic">Heuristic</option>
+            <option value="means">Means-End Analysis</option>
+            <option value="backwards">Working Backwards</option>
+          </select>
+        </div>
+        <div class="scenario-item">
+          <span class="scenario-text">You're designing an app for elderly users who struggle with smartphones.</span>
+          <select class="scenario-select" id="s5">
+            <option value="">Select...</option>
+            <option value="trial">Trial & Error</option>
+            <option value="algo">Algorithm</option>
+            <option value="heuristic">Heuristic</option>
+            <option value="means">Means-End Analysis</option>
+            <option value="backwards">Working Backwards</option>
+          </select>
+        </div>
+        <button class="check-btn" onclick="checkMatching()">Check My Answers</button>
+        <div id="match-result" class="match-result"></div>
+      </div>
+    </div>
+
+    <!-- ACTIVITY 3 - Wicked -->
+    <div class="activity-card">
+      <div class="activity-num">03</div>
+      <div class="activity-badge">Group · 5 min</div>
+      <h3>Wicked Problem Challenge</h3>
+      <p>Pick one: <strong style="color:var(--text)">school bullying / canteen food waste / screen addiction / traffic congestion.</strong></p>
+      <p style="margin-top: 0.5rem;">Apply the IDEAL model and propose one solution. Then ask yourself: does your solution create any <em>new</em> problems? That's what makes it wicked.</p>
+    </div>
+
+    <!-- ACTIVITY 4 - Fixedness -->
+    <div class="activity-card">
+      <div class="activity-num">04</div>
+      <div class="activity-badge">Group · Creative</div>
+      <h3>Functional Fixedness Challenge</h3>
+      <p>You have: a rubber band, a paperclip, a pen lid, a sticky note, and a coin.</p>
+      <p style="margin-top: 0.5rem;">Challenge: <strong style="color:var(--text)">deliver a written message to someone across the room without moving or speaking.</strong></p>
+      <p style="margin-top: 0.5rem; color: var(--text-muted); font-size: 0.8rem;">After, discuss: what made it difficult? Which objects did you ignore at first, and why?</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- QUIZ -->
+<section id="quiz" style="max-width: 100%; padding: 0; background: var(--surface);">
+  <div class="quiz-inner" style="padding: 6rem 2rem;">
+    <div class="section-tag">08 — QUIZ</div>
+    <div class="section-title" style="margin-bottom: 0.5rem;">TEST YOUR<br>KNOWLEDGE</div>
+    <p class="section-intro">8 questions covering everything on the site. Answer all of them — some are multiple choice, some are open-ended.</p>
+
+    <!-- Q1 -->
+    <div class="quiz-q reveal" id="q1">
+      <div class="q-num">Question 01 / 08</div>
+      <div class="q-text">Which type of problem has no single correct solution and often creates new problems when partially solved?</div>
+      <div class="q-options">
+        <div class="q-opt" onclick="selectOpt(this, 'q1', false)">Simple</div>
+        <div class="q-opt" onclick="selectOpt(this, 'q1', false)">Complex</div>
+        <div class="q-opt" onclick="selectOpt(this, 'q1', true)">Wicked</div>
+        <div class="q-opt" onclick="selectOpt(this, 'q1', false)">Ill-defined</div>
+      </div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="quiz-q reveal" id="q2">
+      <div class="q-num">Question 02 / 08</div>
+      <div class="q-text">What does the "L" in the IDEAL model stand for — and why is it the most commonly skipped step?</div>
+      <div class="q-open"><textarea placeholder="Write your answer here..."></textarea></div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="quiz-q reveal" id="q3">
+      <div class="q-num">Question 03 / 08</div>
+      <div class="q-text">A student always uses the same essay structure for every subject, even when it doesn't fit. Which barrier does this best illustrate?</div>
+      <div class="q-options">
+        <div class="q-opt" onclick="selectOpt(this, 'q3', false)">Cognitive overload</div>
+        <div class="q-opt" onclick="selectOpt(this, 'q3', false)">Functional fixedness</div>
+        <div class="q-opt" onclick="selectOpt(this, 'q3', true)">Mental set</div>
+        <div class="q-opt" onclick="selectOpt(this, 'q3', false)">Confirmation bias</div>
+      </div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="quiz-q reveal" id="q4">
+      <div class="q-num">Question 04 / 08</div>
+      <div class="q-text">True or false: Working backwards is most useful when the goal is unclear but the starting point is known.</div>
+      <div class="q-options">
+        <div class="q-opt" onclick="selectOpt(this, 'q4', false)">True</div>
+        <div class="q-opt" onclick="selectOpt(this, 'q4', true)">False</div>
+      </div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="quiz-q reveal" id="q5">
+      <div class="q-num">Question 05 / 08</div>
+      <div class="q-text">In Duncker's candle problem, what stopped most people from solving it?</div>
+      <div class="q-options">
+        <div class="q-opt" onclick="selectOpt(this, 'q5', false)">They didn't read the instructions carefully</div>
+        <div class="q-opt" onclick="selectOpt(this, 'q5', true)">They could only see the box as a container, not a platform</div>
+        <div class="q-opt" onclick="selectOpt(this, 'q5', false)">They had cognitive overload from too many objects</div>
+        <div class="q-opt" onclick="selectOpt(this, 'q5', false)">They used trial and error instead of an algorithm</div>
+      </div>
+    </div>
+
+    <!-- Q6 -->
+    <div class="quiz-q reveal" id="q6">
+      <div class="q-num">Question 06 / 08</div>
+      <div class="q-text">What is the key difference between an algorithm and a heuristic?</div>
+      <div class="q-options">
+        <div class="q-opt" onclick="selectOpt(this, 'q6', false)">Algorithms are faster; heuristics are more accurate</div>
+        <div class="q-opt" onclick="selectOpt(this, 'q6', true)">Algorithms guarantee a correct answer; heuristics reach a good-enough answer quickly</div>
+        <div class="q-opt" onclick="selectOpt(this, 'q6', false)">Algorithms are used in maths only; heuristics are used in everyday life only</div>
+        <div class="q-opt" onclick="selectOpt(this, 'q6', false)">There is no meaningful difference</div>
+      </div>
+    </div>
+
+    <!-- Q7 -->
+    <div class="quiz-q reveal" id="q7">
+      <div class="q-num">Question 07 / 08</div>
+      <div class="q-text">How does Design Thinking differ from the IDEAL model, and what types of problems is it best suited for?</div>
+      <div class="q-open"><textarea placeholder="Write your answer here..."></textarea></div>
+    </div>
+
+    <!-- Q8 -->
+    <div class="quiz-q reveal" id="q8">
+      <div class="q-num">Question 08 / 08</div>
+      <div class="q-text">Give one example of how a cognitive bias could prevent someone from solving a problem effectively.</div>
+      <div class="q-open"><textarea placeholder="eg. Confirmation bias might cause someone to only look for evidence that supports their first idea, ignoring better solutions..."></textarea></div>
+    </div>
+
+    <button class="quiz-submit" onclick="submitQuiz()">Submit Quiz</button>
+
+    <div id="quiz-result" class="quiz-result">
+      <div class="result-score" id="score-display">0/5</div>
+      <div class="result-label">multiple choice questions correct</div>
+      <p style="margin-top: 1rem; font-size: 0.85rem; color: var(--text-muted);">Check your open-ended answers against the content on this site. The multiple choice questions above are now marked — green = correct, orange = incorrect.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>Problem-Solving Strategies · Critical Thinking · Penrith Selective High School · <span>2026</span></p>
+</footer>
+
+<script>
+  // SCROLL REVEAL
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  reveals.forEach(r => observer.observe(r));
+
+  // TABS
+  function switchTab(id) {
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    event.target.classList.add('active');
+  }
+
+  // STRATEGY ACCORDION
+  function toggleStrategy(el) {
+    const isOpen = el.classList.contains('open');
+    document.querySelectorAll('.strategy-item').forEach(s => s.classList.remove('open'));
+    if (!isOpen) el.classList.add('open');
+  }
+
+  // MATCHING GAME
+  const correctAnswers = { s1: 'trial', s2: 'backwards', s3: 'algo', s4: 'heuristic', s5: 'means' };
+  const explanations = {
+    s1: 'Trial & Error — with only 60 options, trying each one is feasible.',
+    s2: 'Working Backwards — start from the party date and work back to now.',
+    s3: 'Algorithm — a recipe is literally a step-by-step guaranteed procedure.',
+    s4: 'Heuristic — no time for a perfect route; a good-enough shortcut wins.',
+    s5: 'Means-End Analysis — the goal (usable app) is clear; bridge the gap step by step.'
+  };
+
+  function checkMatching() {
+    let score = 0;
+    let feedback = '';
+    ['s1','s2','s3','s4','s5'].forEach(id => {
+      const val = document.getElementById(id).value;
+      if (val === correctAnswers[id]) {
+        score++;
+        feedback += `✓ ${explanations[id]}<br>`;
+      } else {
+        feedback += `✗ ${explanations[id]}<br>`;
+      }
+    });
+    const result = document.getElementById('match-result');
+    result.innerHTML = `<strong>${score}/5 correct</strong><br><br>${feedback}`;
+    result.className = 'match-result show ' + (score >= 4 ? 'good' : 'bad');
+  }
+
+  // QUIZ
+  const quizAnswers = {};
+
+  function selectOpt(el, qId, isCorrect) {
+    const opts = el.closest('.q-options').querySelectorAll('.q-opt');
+    opts.forEach(o => o.classList.remove('selected'));
+    el.classList.add('selected');
+    quizAnswers[qId] = isCorrect;
+  }
+
+  function submitQuiz() {
+    const mcqs = ['q1', 'q3', 'q4', 'q5', 'q6'];
+    let score = 0;
+
+    mcqs.forEach(qId => {
+      const card = document.getElementById(qId);
+      const opts = card.querySelectorAll('.q-opt');
+      opts.forEach(opt => {
+        if (opt.classList.contains('selected')) {
+          if (quizAnswers[qId]) {
+            opt.classList.add('correct-ans');
+            score++;
+          } else {
+            opt.classList.add('wrong-ans');
+            // highlight correct
+            opts.forEach(o => {
+              if (o.onclick && o.onclick.toString().includes('true')) o.classList.add('correct-ans');
+            });
+          }
+        }
+      });
+    });
+
+    document.getElementById('score-display').textContent = score + '/5';
+    const result = document.getElementById('quiz-result');
+    result.classList.add('show');
+    result.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+</script>
+</body>
+</html>
